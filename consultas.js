@@ -125,7 +125,7 @@ const agregarT = async(datos) =>{
     
     try {
         const result = await pool.query(consulta);
-        return result;
+        return result.rows;
 
     } catch (error) {
 

@@ -76,9 +76,10 @@ http
             req.on("end", async () => {
 
                 const datos = Object.values(JSON.parse(body));
-                const res = await transferir(datos);
-                const res2 = await agregarT(datos)
-               // res.end(JSON.stringify(res));
+                const respuesta = await transferir(datos);
+                const respuesta2 = await agregarT(datos)
+               // res.end(JSON.stringify(respuesta));
+               // res.end(JSON.stringify(respuesta2));
             });
         }
 
@@ -86,8 +87,12 @@ http
 
             const registros = await consultarT();
             res.end(JSON.stringify(registros));
+
         }
 
 
     })
     .listen(3000);
+
+
+    // Funciona todo menos el botón de editar y que la página no se actualiza cada vez q termina
