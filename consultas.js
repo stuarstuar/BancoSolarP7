@@ -59,7 +59,6 @@ const editar = async (datos) => {
         return error;
     }
 };
-
 const eliminar = async (nombre) => {
     
     try {
@@ -73,15 +72,17 @@ const eliminar = async (nombre) => {
     }
 }
 
+// Transfiere dinero
 const transferir = async(datos) =>{
-    const fecha = new Date()
-
+    
     pool.connect(async (error_conexion, client, release) => {
 
         if (error_conexion) return console.error(error_conexion)
     
         try {
         await client.query("BEGIN");
+
+
         
         const descontar = `UPDATE usuarios SET balance = balance - ${datos[2]} WHERE nombre ='${datos[0]}' RETURNING * `;
         descuento = await client.query(descontar);
@@ -107,11 +108,44 @@ const transferir = async(datos) =>{
         release();
         pool.end();
     });
+
          
 }
+// Constata la transferencia
+const agregarT = async(datos) =>{
+
+    const fecha = new Date()
+    datos.push(fecha)
+
+    const consulta = {
+        text: "INSERT INTO transferencias values($1,$2,$3,$4)",
+        values: datos,
+    };
+
+    
+    try {
+        const result = await pool.query(consulta);
+        return result;
+
+    } catch (error) {
+
+        console.log(error.code);
+        return error;
+    }
+
+}
+
+const consultarT = async () => {
+
+    try {
+        const result = await pool.query("SELECT * FROM transferencias");
+        return result.rows;
+    } catch (error) {
+
+        console.log(error.code);
+        return error;
+    }
+};
 
 
-
-
-
-module.exports = {insertar, consultar, editar, eliminar, transferir};
+module.exports = {insertar, consultar, editar, eliminar, transferir, agregarT, consultarT};

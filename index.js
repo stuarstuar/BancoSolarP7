@@ -3,7 +3,7 @@
 const http = require("http");
 const url = require("url");
 const fs = require("fs");
-const { insertar, consultar, editar, eliminar, transferir} = require("./consultas");
+const { insertar, consultar, editar, eliminar, transferir, agregarT,consultarT} = require("./consultas");
 
 // Servidor y rutas
 
@@ -40,7 +40,7 @@ http
             //console.log(registros)
             res.end(JSON.stringify(registros));
         }
-        // No se puede editar pq no le hice el id
+        // No se puede editar
         if (req.url == "/usuario" && req.method == "PUT") {
             let body = "";
             req.on("data", (chunk) => {
@@ -65,7 +65,7 @@ http
 
         // URLs de transferencias
 
-        // Hace la transferencia, pero falta cerrarla
+        // Hace la transferencia, pero solo una vez
         if ((req.url == "/transferencia" && req.method == "POST")) {
 
             let body = "";
@@ -76,19 +76,17 @@ http
             req.on("end", async () => {
 
                 const datos = Object.values(JSON.parse(body));
-                console.log(datos)
                 const res = await transferir(datos);
-                res.end(JSON.stringify(res));
-                //res.end(console.log("Transferencia Hecha"))
+                const res2 = await agregarT(datos)
+               // res.end(JSON.stringify(res));
             });
         }
 
+        if (req.url == "/transferencias" && req.method === "GET") {
 
-
-
-
-
-
+            const registros = await consultarT();
+            res.end(JSON.stringify(registros));
+        }
 
 
     })
