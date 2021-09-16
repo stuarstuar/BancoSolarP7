@@ -190,9 +190,10 @@
   const setInfoModal = (nombre, balance, id) => {
     $("#nombreEdit").val(nombre);
     $("#balanceEdit").val(balance);
-    $("#editButton").attr("onclick", `editUsuario('${id}')`);
+    $("#editButton").attr("onclick", `editUsuario('${nombre}')`);
   };
 
+  //nop
   const editUsuario = async (id) => {
     const name = $("#nombreEdit").val();
     const balance = $("#balanceEdit").val();
@@ -211,6 +212,7 @@
     }
   };
 
+  // captura usuarios
   $("form:first").submit(async (e) => {
     e.preventDefault();
     let nombre = $("form:first input:first").val();
@@ -231,6 +233,7 @@
     }
   });
 
+  // captura transferencia
   $("form:last").submit(async (e) => {
     e.preventDefault();
     let emisor = $("form:last select:first").val();
@@ -257,6 +260,7 @@
     }
   });
 
+  // saca los usuarios y los imprime en pantalla
   const getUsuarios = async () => {
     const response = await fetch("http://localhost:3000/usuario");
     let data = await response.json();
@@ -285,6 +289,8 @@
     });
   };
 
+
+  // elimina usuarios 
   const eliminarUsuario = async (nombre) => {
     const response = await fetch(`http://localhost:3000/usuario?nombre=${nombre}`, {
       method: "DELETE",
@@ -292,6 +298,7 @@
     getUsuarios();
   };
 
+  // toma transferencias e imprime
   const getTransferencias = async () => {
     const { data } = await axios.get("http://localhost:3000/transferencias");
     $(".transferencias").html("");
