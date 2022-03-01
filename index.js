@@ -61,6 +61,7 @@ http
             const {nombre} = url.parse(req.url, true).query;
             const respuesta = await eliminar(nombre);
             res.end(JSON.stringify(respuesta));
+        
         }
 
         // URLs de transferencias
@@ -83,7 +84,7 @@ http
             });
         }
 
-        if (req.url == "/transferencias" && req.method === "GET") {
+        if (req.url == "/transferencia" && req.method === "GET") {
 
             const registros = await consultarT();
             res.end(JSON.stringify(registros));

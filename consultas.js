@@ -14,7 +14,7 @@ const insertar = async (datos) => {
 
     // Objeto q contiene consulta
     const consulta = {
-        text: "INSERT INTO usuarios values($1,$2)",
+        text: "INSERT INTO usuarios values ($1,$2)",
         values: datos,
     };
 
@@ -25,10 +25,11 @@ const insertar = async (datos) => {
 
     } catch (error) {
 
-        console.log(error.code);
+        console.log(error.code + "a");
         return error;
     }
 };
+
 const consultar = async () => {
 
     try {
@@ -40,6 +41,8 @@ const consultar = async () => {
         return error;
     }
 };
+
+
 const editar = async (datos) => {
 
     const consulta = {
@@ -59,6 +62,7 @@ const editar = async (datos) => {
         return error;
     }
 };
+
 const eliminar = async (nombre) => {
     
     try {
@@ -71,6 +75,7 @@ const eliminar = async (nombre) => {
     return error;
     }
 }
+
 
 // Transfiere dinero
 const transferir = async(datos) =>{
